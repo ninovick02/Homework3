@@ -5,7 +5,8 @@ format: html
 editor: visual
 ---
 
-Setting up environment
+
+## Task 0: Loading in data
 ```{r}
 load("hw2_list.rda")
 ```
