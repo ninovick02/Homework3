@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "HW3Code.html",
+    "href": "HW3Code.html",
+    "title": "HW3: Control Flow Practice and Function Writing",
+    "section": "",
+    "text": "load(\"hw2_list.rda\")"
+  },
+  {
+    "objectID": "HW3Code.html#task-0-loading-in-data",
+    "href": "HW3Code.html#task-0-loading-in-data",
+    "title": "HW3: Control Flow Practice and Function Writing",
+    "section": "",
+    "text": "load(\"hw2_list.rda\")"
+  },
+  {
+    "objectID": "HW3Code.html#task-1-control-flow-practice",
+    "href": "HW3Code.html#task-1-control-flow-practice",
+    "title": "HW3: Control Flow Practice and Function Writing",
+    "section": "Task 1: Control Flow Practice",
+    "text": "Task 1: Control Flow Practice\n\nWe want to characterize the post treatment/placebo blood pressure measurement as optimal, borderline, and high\nCreate new blank columns in the treatment and placebo dataframes\n\nbp_list$treatment$status &lt;- character(20)\nbp_list$placebo$status &lt;- character(10)\n\nRewrite the blank columns in the treatment dataframe\n\nfor(i in 1:20){\n  if(bp_list$treatment$post_bp[i] &lt;= 120){\n    bp_list$treatment$status[i] &lt;- \"optimal\"\n  } else if(bp_list$treatment$post_bp[i] &gt; 130){\n    bp_list$treatment$status[i] &lt;- \"high\"\n  } else{\n    bp_list$treatment$status[i] &lt;- \"borderline\"\n  }\n}\n\nRewrite the blank columns in the placebo dataframe\n\nfor(i in 1:10){\n  if(bp_list$placebo$post_bp[i] &lt;= 120){\n    bp_list$placebo$status[i] &lt;- \"optimal\"\n  } else if(bp_list$placebo$post_bp[i] &gt; 130){\n    bp_list$placebo$status[i] &lt;- \"high\"\n  } else{\n    bp_list$placebo$status[i] &lt;- \"borderline\"\n  }\n}"
+  },
+  {
+    "objectID": "HW3Code.html#task-2-function-writing",
+    "href": "HW3Code.html#task-2-function-writing",
+    "title": "HW3: Control Flow Practice and Function Writing",
+    "section": "Task 2: Function Writing",
+    "text": "Task 2: Function Writing\nReturns a vector of statitistics of interest for each of the numeric columns in each dataframe of a list\n\nget_summary_stat &lt;- function(df_list, func = \"mean\"){\n  my_df &lt;- df_list\n  # gets a funciton from the quoted string arguement\n  my_fun &lt;- get(func)\n \n  # Creating df with only the numeric columns \n  for(i in 1:length(my_df)){\n    my_df[[i]] &lt;- my_df[[i]][sapply(my_df[[i]], is.numeric)]\n  }\n  \n  # Creating meaningful names vector\n  meaningful_names &lt;- c()\n  for(i in 1:length(my_df)){\n    meaningful_names &lt;- c(meaningful_names, paste(names(my_df[i]), names(my_df[[i]]), func, sep = \":\"))\n  }\n  \n  # Created summary statistic\n  summary_stat &lt;- c()\n  for(i in 1:length(my_df)){\n    summary_stat &lt;- c(summary_stat, apply(my_df[[i]], 2, my_fun))\n  }\n  \n  names(summary_stat) &lt;- meaningful_names\n  \n  return(summary_stat)\n}\n\nApplying the above function to the given bp_list. It will be used without specifying the statistic and with specifying the statistic as “var”, “sd”, “min”, and “max”.\n\nget_summary_stat(bp_list)\n\n treatment:pre_bp:mean treatment:post_bp:mean treatment:diff_bp:mean \n                131.60                 125.95                   5.65 \n   placebo:pre_bp:mean   placebo:post_bp:mean   placebo:diff_bp:mean \n                131.90                 128.90                   3.00 \n\nget_summary_stat(bp_list, \"var\")\n\n treatment:pre_bp:var treatment:post_bp:var treatment:diff_bp:var \n             75.72632              78.99737             117.81842 \n   placebo:pre_bp:var   placebo:post_bp:var   placebo:diff_bp:var \n            149.87778             124.98889             341.33333 \n\nget_summary_stat(bp_list, \"sd\")\n\n treatment:pre_bp:sd treatment:post_bp:sd treatment:diff_bp:sd \n            8.702087             8.888046            10.854419 \n   placebo:pre_bp:sd   placebo:post_bp:sd   placebo:diff_bp:sd \n           12.242458            11.179843            18.475209 \n\nget_summary_stat(bp_list, \"min\")\n\n treatment:pre_bp:min treatment:post_bp:min treatment:diff_bp:min \n                  115                   114                   -24 \n   placebo:pre_bp:min   placebo:post_bp:min   placebo:diff_bp:min \n                  114                   105                   -21 \n\nget_summary_stat(bp_list, \"max\")\n\n treatment:pre_bp:max treatment:post_bp:max treatment:diff_bp:max \n                  151                   146                    21 \n   placebo:pre_bp:max   placebo:post_bp:max   placebo:diff_bp:max \n                  152                   143                    33"
+  }
+]
